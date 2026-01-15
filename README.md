@@ -17,6 +17,20 @@ Item master data is instrumental in supply chain, regulatory, and commercial ope
 
 ---
 
+## 🛠️ Tools & Technologies
+
+Python – Synthetic data generation
+
+PostgreSQL – Relational database storage
+
+Power BI – Data modeling, rule validation, and visualization
+
+SQL – Data validation and querying
+
+GitHub – Version control and project documentation
+
+--
+
 ## 🏗️ Workflow and Tools Overview
 
 Python (Synthetic Data Generation)
@@ -33,7 +47,7 @@ PowerBI (Ingestion, Rule Validation, Visualization)
 
 ### 🛠️ Data Genration (Python)
 
--  Leveraged AI to create a Python script used to generate a synthetic SKU master dataset with over 5000 SKUs
+-  Leveraged AI to create a Python script used to generate a synthetic SKU master dataset with over 5000 SKUs. The script allowed me to customize output, including the # of SKUs to generate and the percentage of errors to insert in the dataset.
 -  Included fields such as:
     -  SKU Number/Material Number
     -  Description with dosage form and strength
@@ -48,9 +62,12 @@ PowerBI (Ingestion, Rule Validation, Visualization)
 
 ### 🗄️ Data Storage (PostgreSQL)
 
-Loaded the synthetic dataset of Pharma and OTC products (csv format) into a local PostgreSQL database using the pgAdmin 4 admin tool. The table design resembled that of the csv dataset. No cleansing was performed.
+Loaded the synthetic dataset of Pharma and OTC products (csv format) into a local PostgreSQL database using the pgAdmin 4 admin tool. The table design resembled that of the csv dataset. No cleansing was performed, only verification that all data was loaded properly.
+**[screenshot first 10 rows]**![Alt text for the image](image_url_or_path) 
 
-**[screenshot]**![Alt text for the image](image_url_or_path)
+**[screenshot columns]**![Alt text for the image](image_url_or_path)
+
+**[screenshot count of records]**![Alt text for the image](image_url_or_path)
 
 ### 🔍 Data Ingestion and Data Quality Rules (Power BI)
 
@@ -63,37 +80,32 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
     -  Primary Distribution Center must be one of five valid DCs with no blanks
     -  ABC Code for accounting and cycle-count activities must be entered with no blank ('A', 'B', 'C')
 
-**[screenshot]**![Alt text for the image](image_url_or_path)
+**[screenshot powerquery]**![Alt text for the image](image_url_or_path)
 
-### 📊 Dashboard Features
+**[screenshot custom columns]**![Alt text for the image](image_url_or_path)
 
-The Power BI dashboard includes:
+### 📊 Dashboard Features and Insights
 
-Overall data quality score
+The design of the PowerBI dashboard includes:
+-  Overall data quality score
+-  Count of SKUs failing one or more rules
+-  Count of rule failures across the entire dataset
+-  Count of SKUs being considered in the analysis
+-  Breakdown of rule failures by type
+-  Breakdown of SKUs failing one or more rules by Product Type and Commercial Classification
+-  Table of all SKUs failine one or more rules, with the option to filter/search by SKU.
 
-Count of SKUs failing one or more rules
+The dashboard is designed for data stewards, inventory analysts, and master data teams who need quick visibility into data health. This dashboard can help determine what products types are the most affected, and also what are the most common points of failure.
 
-Breakdown of failures by rule
+Several actionables can be set by using this dashboard
+  -  SKU naming conventions can be easily resolved. This only affects 5 SKUs but it is low-hanging fruit. This would be a quick win.
+  -  Lot Control flag should be set as YES to on all SKUs. This update should be quick using SQL (UPDATE table, SET lot_control_flag = 'Yes';), and would impact ### if SKUs. This is also a quick win.
+  -  Incorrect Primary DC or blank values would require input from Supply Chain and Logistics teams, but this only affects ### of SKUs.
+  -  SKU Description and Commercial Classification. If Product Description includes the Commercial Classification, but the Commercial Classification is incorrect or blank
 
-Trend views to monitor data quality over time
+--
 
-Drill-down capability to identify specific SKUs with issues
-
-The dashboard is designed for data stewards, inventory analysts, and master data teams who need quick visibility into data health.
-
-🛠️ Tools & Technologies
-
-Python – Synthetic data generation
-
-PostgreSQL – Relational database storage
-
-Power BI – Data modeling, rule validation, and visualization
-
-SQL – Data validation and querying
-
-GitHub – Version control and project documentation
-
-🚀 Why This Project Matters
+## 🚀 Why This Project Matters
 
 This project demonstrates:
 
