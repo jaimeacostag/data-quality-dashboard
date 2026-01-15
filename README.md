@@ -44,3 +44,69 @@ PowerBI (Ingestion, Rule Validation, Visualization)
  ---
 
 
+🗄️ Data Storage (PostgreSQL)
+
+Loaded the synthetic dataset into PostgreSQL
+
+Designed the table to resemble a simplified item master structure
+
+Enabled Power BI to connect directly to a relational data source, mirroring production analytics patterns
+
+🔍 Data Quality Rules (Power BI)
+
+Within Power BI, I created custom columns to evaluate data quality rules such as:
+
+Description consistency vs. commercial classification
+
+Required field completeness
+
+Detection of “Sample” or “Private Label” indicators
+
+Identification of records that fail one or more validation checks
+
+Each rule produces a Boolean or categorical result that feeds into overall data quality scoring.
+
+📊 Dashboard Features
+
+The Power BI dashboard includes:
+
+Overall data quality score
+
+Count of SKUs failing one or more rules
+
+Breakdown of failures by rule
+
+Trend views to monitor data quality over time
+
+Drill-down capability to identify specific SKUs with issues
+
+The dashboard is designed for data stewards, inventory analysts, and master data teams who need quick visibility into data health.
+
+🛠️ Tools & Technologies
+
+Python – Synthetic data generation
+
+PostgreSQL – Relational database storage
+
+Power BI – Data modeling, rule validation, and visualization
+
+SQL – Data validation and querying
+
+GitHub – Version control and project documentation
+
+🚀 Why This Project Matters
+
+This project demonstrates:
+
+Practical experience with data quality and governance concepts
+
+End-to-end data workflows from generation to visualization
+
+Use of rule-based validation in analytics tools
+
+Familiarity with enterprise-style data architectures
+
+Ability to translate business rules into technical logic
+
+It directly reflects the type of analytical and data stewardship work required in pharmaceutical, manufacturing, and regulated supply chain environments.
+
