@@ -49,6 +49,7 @@ PowerBI (Ingestion, Rule Validation, Visualization)
 ### 🗄️ Data Storage (PostgreSQL)
 
 Loaded the synthetic dataset of Pharma and OTC products (csv format) into a local PostgreSQL database using the pgAdmin 4 admin tool. The table design resembled that of the csv dataset. No cleansing was performed, only verification that all data was loaded properly.
+
 **[screenshot first 10 rows]**![Alt text for the image](image_url_or_path) 
 
 **[screenshot columns]**![Alt text for the image](image_url_or_path)
@@ -70,7 +71,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 **[screenshot custom columns]**![Alt text for the image](image_url_or_path)
 
-### 📊 Dashboard Features and Insights
+### 📊 Dashboard Features, Insights, and Action Plan
 
 The design of the PowerBI dashboard includes:
 -  Overall data quality score
@@ -83,17 +84,36 @@ The design of the PowerBI dashboard includes:
 
 **[screenshot Dashoard]**![Alt text for the image](image_url_or_path)
 
-The dashboard is reporting a 51% data quality level. There is work to get done, but we are able to divide the work into managable actionables for quick improvements
+**The dashboard is reporting a 51% data quality level**, or #### SKUs not meeting all data quality rules. There is work to get done, but we are able to divide the work into managable actionables for quick improvements
 
 Several **actionables** can be determined by using this dashboard
+
+**Quick Wins**
   -  SKU naming conventions can be easily resolved. This only affects 5 SKUs but it is low-hanging fruit. This would be a quick win.
   -  Lot Control flag should be set as YES to on all SKUs. This update should be quick using SQL, and would correct ### if SKUs. This is also a quick win.
       ```
       UPDATE table
       SET lot_control_flag = 'Yes';
       ```     
+  **Long Term Actionables**
   -  Incorrect Primary DC or blank values would require input from Supply Chain and Logistics teams, but this only affects ### of SKUs.
-  -  SKU Description and Commercial Classification. If Product Description includes the Commercial Classification, but the Commercial Classification is incorrect or blank
+  -  SKU Description and Commercial Classification. SKU description should include the Commercial Classification for 'Samples' and 'Private Label'. Determining and confirming these values would require input from commercial teams.
+  -  ABC code updates would require Inventory Control or Finance/Accounting input. These are critical for cycle-counts at the DC and for audit purposes. Financial Reporting Group can also be considered in these discussions.
+
+**Proposed Action Plan**
+
+-  Tackle the quick wins first. These may only take a day or two to complete. Mass updates to SQL tables should still be performed with caution and be done in a Quality environment first.
+-  Set time with subject matter experts to verify values (Description vs Commercial Classification, Incorrect/Missing DC, ABC Codes)
+
+Long term actionables will require input for validation and verification of planned corrections, but this can happen in tandem with enforcement of rules for all new SKUs and SKU updates, along with additional training in best data entry and data stewardship practices.
+
+### Realistic Two Week Progress Report
+
+After two weeks these are some realistic accomplishments:
+- SKU names updated (SQL)
+- Lot Control Flag updated (SQL)
+- Partial Descripion and Copmmercial Classification synchroniazation based on initial feedback from SMEs (SQL)
+- ABC Codes updated based on SME input relying on past sales volume (SQL)
 
 ---
 
@@ -101,9 +121,10 @@ Several **actionables** can be determined by using this dashboard
 
 ```text
 /
-├── powerquery/           # Power Query (M) scripts for API ingestion and ETL
-├── powerbi/              # Power BI dashboard files
-├── docs/                 # Screenshots
+├── powerquery/           # Power Query (M) scripts for PostgreSQL ingestion and ETL
+├── powerbi/              # Power BI dashboard file
+├── docs/                 # Screenshots 
+├── python/               # Python script 
 └── README.md
 
 
