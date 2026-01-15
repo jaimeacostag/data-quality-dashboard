@@ -11,81 +11,36 @@ This project closely reflects my day-to-day work in inventory analytics and data
 
 ## 🧠 Problem Statement
 
-Item master data is instrumental in supply chain, regulatory, and commercial operations. 
-
-
-## 📌 Project Overview
-
-The dashboard displays current stream conditions for **three New Jersey streams** using publicly available USGS data. The project demonstrates a simple, end-to-end BI workflow:
-
-**USGS API → Power Query (ETL) → Power BI Dashboard**
-
-The focus is on clean data ingestion, repeatable transformations, and clear visual design for quick decision-making.
+Item master data is instrumental in supply chain, regulatory, and commercial operations. Issues with SKU set-ups can cause downstream failures in ERP, WMS, reporting, and compliance processes. Some of these issues not following SKU-naming rules, setting invalid attributes, or leaving critical fields blank. 
 
 ---
 
-## 🎯 Purpose of the Project
+## 🏗️ Workflow and Tools Overview
 
-This project serves two goals:
+Python (Synthetic Data Generation)
 
-1. **Personal Use** – Quickly assess stream conditions before fly fishing outings  
-2. **Portfolio Demonstration** – Showcase practical BI skills using a real-world public API
+  ⬇️
+  
+PostgresSQL (Relational Database Storage)
 
-The project mirrors common operational dashboards used in enterprise settings: current-state monitoring, standardized transformations, and refreshable data models.
-
----
-
-## 🛠️ Tools & Technologies
-
-- **Data Source:** USGS Water Services API  
-- **ETL / Data Transformation:** Power Query  
-- **Data Modeling & Visualization:** Power BI  
-- **Concepts Demonstrated:**
-  - API-based data ingestion
-  - Power Query transformations and normalization
-  - BI modeling and dashboard design
+  ⬇️
+  
+PowerBI (Ingestion, Rule Validation, Visualization)
 
 ---
 
-## 🧱 Dashboard Build Process
+## 🛠️ Data Genration (Python)
 
-This section outlines the high-level steps used to build the dashboard.
-
-### 1. Data Ingestion
-- Connected to the USGS Water Services API using Power Query
-- Parsed JSON responses into tabular format and removed unnecessary elements
-  ![Power Query ETL](docs/screenshots/powerquery_json_parsed.png)
-
-### 2. Data Transformation (Power Query)
-- Pivoted columns
-- Changed timestamps to EST and separated into separate date and time columns
-- Renamed columns and changed data types
-- **Note:** Air temperature is recorded at a slightly different time than flow conditions.
-  ![Power Query ETL](docs/screenshots/powerquery_columns_pivoted_cleaned.png)
-
-### 3. Dashboard Design (Power BI)
-- Designed visuals for quick “at-a-glance” assessment
-- Used scales and conditional formatting for each stream measurement based on personal experience
-  ![Power Query ETL](docs/screenshots/dashboard.png)
-
----
-
-## 📊 Dashboard Features
-
-- Current streamflow and gauge height by river
-- Timestamp of the most recent USGS reading
-- At-a-glance comparison across rivers
-- Clean, minimal layout optimized for fast condition checks
-
----
+-  Leveraged AI to create a Python script used to generate a synthetic SKU master dataset with over 5000 SKUs
+-  Included fields such as:
+    -  SKU Number/Material Number
+    -  Description with dosage form and strength
+    -  Commercial Classification
+    -  Brand/Label Type
+-  Errors introduced
+    -  Missing values
+    -  Inconsistent SKU Numbers
+    -  Conflicting values
+ ---
 
 
-
-## 🗂️ Repository Structure
-
-```text
-/
-├── powerquery/           # Power Query (M) scripts for API ingestion and ETL
-├── powerbi/              # Power BI dashboard files
-├── docs/                 # Screenshots
-└── README.md
