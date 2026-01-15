@@ -3,9 +3,11 @@
 
 This project shows a real-world data quality monitoring worklow. The project uses a **synthetic SKU master dataset**; no real data was used in this project. The goal is to simulate common item master data issues, then build a repeatable process for detection, tracking, and visualization of data quality exceptions.
 
-I leveraged AI and Python to generate the synthetic data set with intentional data errors. I then loaded the data a PostgreSQL database to mimic a real-life, Source of Truch scenario. I used PowerBI to connect to this database, and I evaluated the data using rule-based checks in the form of custom columns. I used this output to create a PowerBI dashboard designed to help data stewards monitor data quality and create actionables for data cleansing.
+I leveraged AI and Python to generate the synthetic data set with intentional data errors. I then loaded the data a PostgreSQL database to serve as the source of truth. I used PowerBI to connect to this database and I evaluated the data using rule-based checks in the form of custom columns. I used this output to create a PowerBI dashboard designed to help data stewards monitor data quality and create actionables for data cleansing.
 
 This project closely reflects my day-to-day work in inventory analytics and data governance.
+
+**Note:** This project is an oversimplification of a real item master data structure. For this project I am relying on a **single** data table with synthetic data.
 
 ---
 
@@ -29,7 +31,7 @@ PowerBI (Ingestion, Rule Validation, Visualization)
 
 ---
 
-## 🛠️ Data Genration (Python)
+### 🛠️ Data Genration (Python)
 
 -  Leveraged AI to create a Python script used to generate a synthetic SKU master dataset with over 5000 SKUs
 -  Included fields such as:
@@ -44,29 +46,26 @@ PowerBI (Ingestion, Rule Validation, Visualization)
  ---
 
 
-🗄️ Data Storage (PostgreSQL)
+### 🗄️ Data Storage (PostgreSQL)
 
-Loaded the synthetic dataset into PostgreSQL
+Loaded the synthetic dataset of Pharma and OTC products (csv format) into a local PostgreSQL database using the pgAdmin 4 admin tool. The table design resembled that of the csv dataset. No cleansing was performed.
 
-Designed the table to resemble a simplified item master structure
+**[screenshot]**![Alt text for the image](image_url_or_path)
 
-Enabled Power BI to connect directly to a relational data source, mirroring production analytics patterns
+### 🔍 Data Ingestion and Data Quality Rules (Power BI)
 
-🔍 Data Quality Rules (Power BI)
+-  I used PowerQuery to conenct to the local PostgreSQL database, and then loaded the data using using Import Mode so I could add Custom Columns.
+-  Added Custom Columns to apply data rules to generate a boolean value. True = exception, False = no exception (data follows rule).
+    -  SKU number must folllow a ######ABC naming format (6 integers, 3 chars)
+    -  Description must contain commercial classification ('General Market', 'Sample', 'Private Label') and, conversely, Commercial Classification must match this description
+    -  Product Type must be 'OTC' or 'Pharma' with no blanks
+    -  Lot Control has to be set to 'Yes' for all products with no blanks
+    -  Primary Distribution Center must be one of five valid DCs with no blanks
+    -  ABC Code for accounting and cycle-count activities must be entered with no blank ('A', 'B', 'C')
 
-Within Power BI, I created custom columns to evaluate data quality rules such as:
+**[screenshot]**![Alt text for the image](image_url_or_path)
 
-Description consistency vs. commercial classification
-
-Required field completeness
-
-Detection of “Sample” or “Private Label” indicators
-
-Identification of records that fail one or more validation checks
-
-Each rule produces a Boolean or categorical result that feeds into overall data quality scoring.
-
-📊 Dashboard Features
+### 📊 Dashboard Features
 
 The Power BI dashboard includes:
 
