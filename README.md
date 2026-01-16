@@ -99,14 +99,14 @@ The design of the PowerBI dashboard includes:
 Several **actionables** can be determined by using this dashboard
 
 **Quick Wins**
-  -  SKU naming conventions can be easily resolved. This only affects 5 SKUs but it is low-hanging fruit. This would be a quick win.
-  -  Lot Control flag should be set as YES to on all SKUs. This update should be quick using SQL, and would correct ### if SKUs. This is also a quick win.
+  -  SKU naming conventions can be easily resolved. This only affects 29 SKUs but it is low-hanging fruit. This would be a quick win.
+  -  Lot Control flag should be set as YES to on all SKUs. This update should be quick using SQL, and would correct 363 if SKUs. This is also a quick win.
       ```
       UPDATE table
       SET lot_control_flag = 'Yes';
       ```     
   **Long Term Actionables**
-  -  Incorrect Primary DC or blank values would require input from Supply Chain and Logistics teams, but this only affects ### of SKUs.
+  -  Incorrect Primary DC or blank values would require input from Supply Chain and Logistics teams, but this only affects 330 of SKUs.
   -  SKU Description and Commercial Classification. SKU description should include the Commercial Classification for 'Samples' and 'Private Label'. Determining and confirming these values would require input from commercial teams.
   -  ABC code updates would require Inventory Control or Finance/Accounting input. These are critical for cycle-counts at the DC and for audit purposes. Financial Reporting Group can also be considered in these discussions.
 
@@ -119,11 +119,27 @@ Long term actionables will require input for validation and verification of plan
 
 ### Realistic Two Week Progress Report
 
-After two weeks these are some realistic accomplishments:
-- SKU names updated (SQL)
-- Lot Control Flag updated (SQL)
-- Partial Descripion and Copmmercial Classification synchroniazation based on initial feedback from SMEs (SQL)
-- ABC Codes updated based on SME input relying on past sales volume (SQL)
+After two weeks these are some realistic accomplishments. Data quality went up to 78% from 51%:
+- 29 SKU numbers updated following naming rules. Root cause: 6th and 7th character had been switched
+ 
+  ![SKU Corrections Verification](screenshots/postgresql_sku_corrections_verification.png)
+  
+- 363 Lot Control Flags updated to 'Yes'
+
+  ![SKU Corrections Verification](screenshots/postgresql_lot_control_update.png)
+
+- 1427 SKU descripions updated to match Commercial Classification. These required the Commercial Classification to be added to the description
+  
+  ![SKU Corrections Verification](screenshots/postgresql_description_comm_class_update.png)
+  
+- ABC codes updated (**note:** A virtually equal distribution of ABC codes is highly unlikely)
+
+  ![SKU Corrections Verification](screenshots/postgresql_description_comm_class_update.png)
+
+**Dashboard Present State**
+
+![Dashboard Present State](screenshots/dashboard_post_data_cleanse.png)
+
 
 ---
 
