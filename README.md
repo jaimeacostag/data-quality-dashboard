@@ -50,11 +50,17 @@ PowerBI (Ingestion, Rule Validation, Visualization)
 
 Loaded the synthetic dataset of Pharma and OTC products (csv format) into a local PostgreSQL database using the pgAdmin 4 admin tool. The table design resembled that of the csv dataset. No cleansing was performed, only verification that all data was loaded properly.
 
-**[screenshot first 10 rows]**![Alt text for the image](image_url_or_path) 
+**First 10 rows**
 
-**[screenshot columns]**![Alt text for the image](image_url_or_path)
+![SKU Master First 10 Rows](screenshots/postgresql_check_10_rows.png) 
 
-**[screenshot count of records]**![Alt text for the image](image_url_or_path)
+**Column Names and Data Types**
+
+![Column Names and Data Types](screenshots/postgresql_column_names_types.png)
+
+**Count of Records**
+
+![Count of Records](screenshots/postgresql_check_total_records.png)
 
 ### 🔍 Data Ingestion and Data Quality Rules (Power BI)
 
@@ -67,9 +73,11 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
     -  Primary Distribution Center must be one of five valid DCs with no blanks
     -  ABC Code for accounting and cycle-count activities must be entered with no blank ('A', 'B', 'C')
 
-**[screenshot powerquery]**![Alt text for the image](image_url_or_path)
+**Initial Load into PowerQuery** [M code](powerquery/m_code.txt)
 
-**[screenshot custom columns]**![Alt text for the image](image_url_or_path)
+![PowerQuery Initial Load](screenshots/powerquery_db_connection.png)
+
+
 
 ### 📊 Dashboard Features, Insights, and Action Plan
 
@@ -82,9 +90,11 @@ The design of the PowerBI dashboard includes:
 -  Breakdown of SKUs failing one or more rules by Product Type and Commercial Classification
 -  Table of all SKUs failine one or more rules, with the option to filter/search by SKU.
 
-**[screenshot Dashoard]**![Alt text for the image](image_url_or_path)
+**Dashoard**
 
-**The dashboard is reporting a 51% data quality level**, or #### SKUs not meeting all data quality rules. There is work to get done, but we are able to divide the work into managable actionables for quick improvements
+![Dashboard](screenshots/dashboard.png)
+
+**The dashboard is reporting a 51% data quality level**, or 2673 out of 5489 SKUs not meeting all data quality rules. There is work to get done, but we are able to divide the work into managable actionables for quick improvements
 
 Several **actionables** can be determined by using this dashboard
 
