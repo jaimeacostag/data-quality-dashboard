@@ -134,7 +134,7 @@ After two weeks these are some realistic accomplishments. Data quality went up t
   
 - ABC codes updated (**note:** A virtually equal distribution of ABC codes is highly unlikely)
 
-  ![SKU Corrections Verification](screenshots/postgresql_description_comm_class_update.png)
+  ![SKU Corrections Verification](screenshots/postgresql_abc_codes_corrected.png)
 
 **Dashboard Present State**
 
