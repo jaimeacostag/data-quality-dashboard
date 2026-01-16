@@ -1,0 +1,67 @@
+let
+    Source = Value.NativeQuery(PostgreSQL.Database("localhost", "item_master"), "SELECT#(lf)*#(lf)FROM#(lf)sku.sku_master", null, [EnableFolding=true]),
+    #"Changed Type" = Table.TransformColumnTypes(Source,{{"sku_entry_date", type date}, {"discon_date", type date}}),
+    #"SKU Check" = Table.AddColumn(#"Changed Type", "sku_check", each not (
+    Text.Length([sku]) = 9 and
+    Text.Select(Text.Start([sku], 6), {"0".."9"}) = Text.Start([sku], 6) and
+    Text.Select(Text.End([sku], 3), {"A".."Z"}) = Text.End([sku], 3)
+)),
+    #"Reordered Columns" = Table.ReorderColumns(#"SKU Check",{"sku", "sku_check", "description", "prod_type", "comm_class", "lot_control_flag", "primary_dc", "abc_code", "fin_rprt_grp", "sku_entry_date", "sku_status", "discon_date"}),
+    #"Prod Type Check" = Table.AddColumn(#"Reordered Columns", "prod_type_check", each not List.Contains({"OTC", "PHARMA"}, Text.Upper(Text.Trim([prod_type])))),
+    #"Reordered Columns1" = Table.ReorderColumns(#"Prod Type Check",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "lot_control_flag", "primary_dc", "abc_code", "fin_rprt_grp", "sku_entry_date", "sku_status", "discon_date"}),
+    #"Lot Flag Check" = Table.AddColumn(#"Reordered Columns1", "lot_control_flag_check", each Text.Upper(Text.Trim([lot_control_flag])) <> "YES"),
+    #"Filtered Rows" = Table.SelectRows(#"Lot Flag Check", each true),
+    #"Reordered Columns2" = Table.ReorderColumns(#"Filtered Rows",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "lot_control_flag", "lot_control_flag_check", "primary_dc", "abc_code", "fin_rprt_grp", "sku_entry_date", "sku_status", "discon_date"}),
+    #"DC Check" = Table.AddColumn(#"Reordered Columns2", "primary_dc_check", each not List.Contains(
+    {"CADC400D", "ILWH500E", "TXDC300C", "NJWH100A", "PAWH200B"},
+    Text.Upper(Text.Trim([primary_dc]))
+)),
+    #"Reordered Columns3" = Table.ReorderColumns(#"DC Check",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "lot_control_flag", "lot_control_flag_check", "primary_dc", "primary_dc_check", "abc_code", "fin_rprt_grp", "sku_entry_date", "sku_status", "discon_date"}),
+    #"ABC Check" = Table.AddColumn(#"Reordered Columns3", "abc_code_check", each Text.Upper(Text.Trim([abc_code])) is null),
+    #"Reordered Columns4" = Table.ReorderColumns(#"ABC Check",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "lot_control_flag", "lot_control_flag_check", "primary_dc", "primary_dc_check", "abc_code", "abc_code_check", "fin_rprt_grp", "sku_entry_date", "sku_status", "discon_date"}),
+    #"Fin Group Check" = Table.AddColumn(#"Reordered Columns4", "fin_grp_check", each Text.Length(Text.From([fin_rprt_grp])) <> 9),
+    #"Reordered Columns5" = Table.ReorderColumns(#"Fin Group Check",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "lot_control_flag", "lot_control_flag_check", "primary_dc", "primary_dc_check", "abc_code", "abc_code_check", "fin_rprt_grp", "fin_grp_check", "sku_entry_date", "sku_status", "discon_date"}),
+    #"Commercia Class Check" = Table.AddColumn(#"Reordered Columns5", "comm_class_check", each (
+    [comm_class] = null
+    or Text.Trim([comm_class]) = ""
+)
+or
+(
+    Text.Contains(Text.Upper([description]), "SAMPLE")
+    and Text.Upper(Text.Trim([comm_class])) <> "SAMPLE"
+)
+or
+(
+    Text.Contains(Text.Upper([description]), "PRIVATE LABEL")
+    and Text.Upper(Text.Trim([comm_class])) <> "PRIVATE LABEL"
+)
+or
+(
+    Text.Upper(Text.Trim([comm_class])) = "SAMPLE"
+    and not Text.Contains(Text.Upper([description]), "SAMPLE")
+)
+or
+(
+    Text.Upper(Text.Trim([comm_class])) = "PRIVATE LABEL"
+    and not Text.Contains(Text.Upper([description]), "PRIVATE LABEL")
+)
+or
+(
+    Text.Upper(Text.Trim([comm_class])) = "GENERAL MARKET"
+    and (
+        Text.Contains(Text.Upper([description]), "SAMPLE")
+        or Text.Contains(Text.Upper([description]), "PRIVATE LABEL")
+    )
+)),
+    #"Reordered Columns6" = Table.ReorderColumns(#"Commercia Class Check",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "comm_class_check", "lot_control_flag", "lot_control_flag_check", "primary_dc", "primary_dc_check", "abc_code", "abc_code_check", "fin_rprt_grp", "fin_grp_check", "sku_entry_date", "sku_status", "discon_date"}),
+    #"SKU Status Check" = Table.AddColumn(#"Reordered Columns6", "active_sku_check", each ([sku_status] = "Active"
+and [discon_date] < Date.From(DateTime.LocalNow()))
+or
+([sku_status] = "Inactive"
+and [discon_date] > Date.From(DateTime.LocalNow()))),
+    #"Added Custom" = Table.AddColumn(#"SKU Status Check", "sku_quality_fail", each [sku_check] or [prod_type_check] or [comm_class_check] or [lot_control_flag_check] or [primary_dc_check] or [abc_code_check] or [fin_grp_check]),
+    #"Filtered Rows1" = Table.SelectRows(#"Added Custom", each true),
+    #"Reordered Columns7" = Table.ReorderColumns(#"Filtered Rows1",{"sku", "sku_check", "description", "prod_type", "prod_type_check", "comm_class", "comm_class_check", "lot_control_flag", "lot_control_flag_check", "primary_dc", "primary_dc_check", "abc_code", "abc_code_check", "fin_rprt_grp", "fin_grp_check", "sku_entry_date", "sku_status", "discon_date", "sku_quality_fail", "active_sku_check"}),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Reordered Columns7",{{"active_sku_check", type text}})
+in
+    #"Changed Type1"
