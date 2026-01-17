@@ -1,9 +1,9 @@
 # 🔍 SKU Master Data Quality Object
 ## 📌 Project Overview
 
-This project shows a real-world data quality monitoring worklow. The project uses a **synthetic SKU master dataset**; no real data was used in this project. The goal is to simulate common item master data issues, then build a repeatable process for detection, tracking, and visualization of data quality exceptions.
+This project shows a real-world data quality monitoring workflow. The project uses a **synthetic SKU master dataset**; no real data was used. The goal is to simulate common item master data issues, then build a repeatable process for detection, tracking, and visualization of data quality exceptions.
 
-I leveraged AI and Python to generate the synthetic data set with intentional data errors. I then loaded the data a PostgreSQL database to serve as the source of truth. I used PowerBI to connect to this database and I evaluated the data using rule-based checks in the form of custom columns. I used this output to create a PowerBI dashboard designed to help data stewards monitor data quality and create actionables for data cleansing.
+I leveraged AI and Python to generate the synthetic dataset with intentional data errors. I then loaded the data into a PostgreSQL database to serve as the source of truth. PowerBI was used to connect to this database and evaluate the data using rule-based checks implemented as custom columns. I used this output to create a Power BI dashboard designed to help data stewards monitor data quality and create actionables for data cleansing.
 
 This project closely reflects my day-to-day work in inventory analytics and data governance.
 
@@ -13,7 +13,7 @@ This project closely reflects my day-to-day work in inventory analytics and data
 
 ## 🧠 Problem Statement
 
-Item master data is instrumental in supply chain, regulatory, and commercial operations. Issues with SKU set-ups can cause downstream failures in ERP, WMS, reporting, and compliance processes. Some of these issues not following SKU-naming rules, setting invalid attributes, or leaving critical fields blank. 
+Item master data is instrumental in supply chain, regulatory, and commercial operations. Issues with SKU set-ups can cause downstream failures in ERP, WMS, reporting, and compliance processes. Common issues include not following SKU naming conventions, setting invalid attributes, or leaving critical fields blank.
 
 ---
 
@@ -23,7 +23,7 @@ ChatGPT & Python (Synthetic Data Generation)
 
   ⬇️
   
-PostgresSQL (Relational Database Storage)
+PostgreSQL (Relational Database Storage)
 
   ⬇️
   
@@ -31,9 +31,9 @@ PowerBI (Ingestion, Rule Validation, Visualization)
 
 ---
 
-### 🛠️ Data Genration (Python)
+### 🛠️ Data Generation (Python)
 
--  Leveraged AI to create a [Python script](python/synth_sku_generator.py) used to generate a synthetic SKU master dataset with over 5000 SKUs. The script allowed me to customize output, including the # of SKUs to generate and the percentage of errors to insert in the dataset.
+-  Leveraged AI to create a [Python script](python/synth_sku_generator.py) used to generate a synthetic SKU master dataset with over 5,000 SKUs. The script allowed me to customize output, including the # of SKUs to generate and the percentage of errors to insert in the dataset.
 -  Included fields such as:
     -  SKU Number/Material Number
     -  Description with dosage form and strength
@@ -66,12 +66,12 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 -  I used PowerQuery to conenct to the local PostgreSQL database, and then loaded the data using using Import Mode so I could add Custom Columns.
 -  Added Custom Columns to apply data rules to generate a boolean value. True = exception, False = no exception (data follows rule).
-    -  SKU number must folllow a ######ABC naming format (6 integers, 3 chars)
+    -  SKU number must follow a ######ABC naming format (6 numeric characters, 3 alphabetic characters)
     -  Description must contain commercial classification ('General Market', 'Sample', 'Private Label') and, conversely, Commercial Classification must match this description
     -  Product Type must be 'OTC' or 'Pharma' with no blanks
     -  Lot Control has to be set to 'Yes' for all products with no blanks
     -  Primary Distribution Center must be one of five valid DCs with no blanks
-    -  ABC Code for accounting and cycle-count activities must be entered with no blank ('A', 'B', 'C')
+    -  ABC Code (used accounting and cycle counting) must be populated with A, B, or C
 
 **Initial Load into PowerQuery** [M code](powerquery/m_code.txt)
 
@@ -82,25 +82,25 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 ### 📊 Dashboard Features, Insights, and Action Plan
 
 The design of the PowerBI dashboard includes:
--  Overall data quality score
--  Count of SKUs failing one or more rules
--  Count of rule failures across the entire dataset
--  Count of SKUs being considered in the analysis
--  Breakdown of rule failures by type
--  Breakdown of SKUs failing one or more rules by Product Type and Commercial Classification
--  Table of all SKUs failine one or more rules, with the option to filter/search by SKU.
+-  Overall data quality score (card)
+-  Count of SKUs failing one or more rules (card)
+-  Count of rule failures across the entire dataset (card)
+-  Count of SKUs being considered in the analysis (card)
+-  Breakdown of rule failures by type (stacked bar chart)
+-  Breakdown of SKUs failing one or more rules by Product Type and Commercial Classification (clustered column chart)
+-  Table of all SKUs failing one or more rules, with the option to filter/search by SKU
 
 **Dashoard**
 
 ![Dashboard](screenshots/dashboard.png)
 
-**The dashboard is reporting a 51% data quality level**, or 2673 out of 5489 SKUs not meeting all data quality rules. There is work to get done, but we are able to divide the work into managable actionables for quick improvements
+**The dashboard is reporting a 51% data quality level**, or 2673 out of 5489 SKUs not meeting all data quality rules. While there is significannt work to be done, the dashboard enables the work to be broken down into **manageabe, actionable tasks.**
 
 Several **actionables** can be determined by using this dashboard
 
 **Quick Wins**
   -  SKU naming conventions can be easily resolved. This only affects 29 SKUs but it is low-hanging fruit. This would be a quick win.
-  -  Lot Control flag should be set as YES to on all SKUs. This update should be quick using SQL, and would correct 363 if SKUs. This is also a quick win.
+  -  Lot Control flag should be set as YES to on all SKUs. This update should be quick using SQL and it would correct 363 SKUs. This is also a quick win.
       ```
       UPDATE table
       SET lot_control_flag = 'Yes';
@@ -119,7 +119,7 @@ Long term actionables will require input for validation and verification of plan
 
 ### Realistic Two Week Progress Report
 
-After two weeks these are some realistic accomplishments. Data quality went up to 78% from 51%:
+After two weeks, the following realistic improvements were achieved, increasing data from **51% to 78%**:
 - 29 SKU numbers updated following naming rules. Root cause: 6th and 7th character had been switched
  
   ![SKU Corrections Verification](screenshots/postgresql_sku_corrections_verification.png)
@@ -128,7 +128,7 @@ After two weeks these are some realistic accomplishments. Data quality went up t
 
   ![SKU Corrections Verification](screenshots/postgresql_lot_control_update.png)
 
-- 1427 SKU descripions updated to match Commercial Classification. These required the Commercial Classification to be added to the description
+- 1,427 SKU descripions updated to match Commercial Classification. These required the Commercial Classification to be added to the description
   
   ![SKU Corrections Verification](screenshots/postgresql_description_comm_class_update.png)
   
