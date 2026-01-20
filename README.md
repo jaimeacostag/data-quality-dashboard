@@ -94,7 +94,7 @@ The design of the PowerBI dashboard includes:
 
 ![Dashboard](screenshots/dashboard.png)
 
-**The dashboard is reporting a 51% data quality level**, or 2673 out of 5489 SKUs not meeting all data quality rules. While there is significannt work to be done, the dashboard enables the work to be broken down into **manageabe, actionable tasks.**
+**The dashboard is reporting a 51% data quality level**, or 2673 out of 5489 SKUs not meeting all data quality rules. While there is significannt work to be done, the dashboard enables the work to be broken down into manageable, actionable tasks.**
 
 Several **actionables** can be determined by using this dashboard
 
