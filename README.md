@@ -64,7 +64,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 ### 🔍 Data Ingestion and Data Quality Rules (Power BI)
 
--  I used PowerQuery to conenct to the local PostgreSQL database, and then loaded the data using using Import Mode so I could add Custom Columns.
+-  I used PowerQuery to conect to the local PostgreSQL database, and then loaded the data using using Import Mode so I could add Custom Columns.
 -  Added Custom Columns to apply data rules to generate a boolean value. True = exception, False = no exception (data follows rule).
     -  SKU number must follow a ######ABC naming format (6 numeric characters, 3 alphabetic characters)
     -  Description must contain commercial classification ('General Market', 'Sample', 'Private Label') and, conversely, Commercial Classification must match this description
