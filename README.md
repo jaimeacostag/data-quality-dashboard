@@ -3,7 +3,7 @@
 
 This project shows a real-world data quality monitoring workflow. The project uses a **synthetic SKU master dataset**; no real data was used. The goal is to simulate common item master data issues, then build a repeatable process for detection, tracking, and visualization of data quality exceptions.
 
-I leveraged AI and Python to generate the synthetic dataset with intentional data errors. I then loaded the data into a PostgreSQL database to serve as the source of truth. PowerBI was used to connect to this database and evaluate the data using rule-based checks implemented as custom columns. I used this output to create a Power BI dashboard designed to help data stewards monitor data quality and create actionables for data cleansing.
+I leveraged AI and Python to generate the synthetic dataset with intentional data errors. I then loaded the data into a PostgreSQL database to serve as the source of truth. Power BI was used to connect to this database and evaluate the data using rule-based checks implemented as custom columns. I used this output to create a Power BI dashboard designed to help data stewards monitor data quality and create actionables for data cleansing.
 
 This project closely reflects my day-to-day work in inventory analytics and data governance.
 
@@ -27,7 +27,7 @@ PostgreSQL (Relational Database Storage)
 
   ⬇️
   
-PowerBI (Ingestion, Rule Validation, Visualization)
+Power BI (Ingestion, Rule Validation, Visualization)
 
 ---
 
@@ -64,7 +64,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 ### 🔍 Data Ingestion and Data Quality Rules (Power BI)
 
--  I used PowerQuery to connect to the local PostgreSQL database, and then loaded the data using Import Mode so I could add Custom Columns.
+-  I used Power Query to connect to the local PostgreSQL database, and then loaded the data using Import Mode so I could add Custom Columns.
 -  I added Custom Columns to apply data rules to generate a boolean value. True = exception, False = no exception (data follows rule).
     -  SKU number must follow a ######ABC naming format (6 numeric characters, 3 alphabetic characters)
     -  Description must contain commercial classification ('General Market', 'Sample', 'Private Label') and, conversely, Commercial Classification must match this description
@@ -73,7 +73,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
     -  Primary Distribution Center must be one of five valid DCs with no blanks
     -  ABC Code (used accounting and cycle counting) must be populated with A, B, or C
 
-**Initial Load into PowerQuery** [M code](powerquery/m_code.txt)
+**Initial Load into Power Query** [M code](powerquery/m_code.txt)
 
 ![PowerQuery Initial Load](screenshots/powerquery_db_connection.png)
 
@@ -81,7 +81,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 ### 📊 Dashboard Features, Insights, and Action Plan
 
-The design of the PowerBI dashboard includes:
+The design of the Power BI dashboard includes:
 -  Overall data quality score (card)
 -  Count of SKUs failing one or more rules (card)
 -  Count of rule failures across the entire dataset (card)
@@ -90,7 +90,7 @@ The design of the PowerBI dashboard includes:
 -  Breakdown of SKUs failing one or more rules by Product Type and Commercial Classification (clustered column chart)
 -  Table of all SKUs failing one or more rules, with the option to filter/search by SKU
 
-**Dashoard**
+**Dashboard**
 
 ![Dashboard](screenshots/dashboard.png)
 
@@ -128,7 +128,7 @@ After two weeks, the following realistic improvements were achieved, increasing 
 
   ![SKU Corrections Verification](screenshots/postgresql_lot_control_update.png)
 
-- 1,427 SKU descripions updated to match Commercial Classification. These required the Commercial Classification to be added to the description
+- 1,427 SKU descriptions updated to match Commercial Classification. These required the Commercial Classification to be added to the description
   
   ![SKU Corrections Verification](screenshots/postgresql_description_comm_class_update.png)
   
