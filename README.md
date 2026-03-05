@@ -1,5 +1,5 @@
-# 🔍 SKU Master Data Quality Object
-## 📌 Project Overview
+#  SKU Master Data Quality Object
+##  Project Overview
 
 This project shows a real-world data quality monitoring workflow. The project uses a **synthetic SKU master dataset**; no real data was used. The goal is to simulate common item master data issues, then build a repeatable process for detection, tracking, and visualization of data quality exceptions.
 
@@ -11,13 +11,13 @@ This project closely reflects my day-to-day work in inventory analytics and data
 
 ---
 
-## 🧠 Problem Statement
+##  Problem Statement
 
 Item master data is instrumental in supply chain, regulatory, and commercial operations. Issues with SKU set-ups can cause downstream failures in ERP, WMS, reporting, and compliance processes. Common issues include not following SKU naming conventions, setting invalid attributes, or leaving critical fields blank.
 
 ---
 
-## 🏗️ Workflow and Tools Overview
+##  Workflow and Tools Overview
 
 ChatGPT & Python (Synthetic Data Generation)
 
@@ -31,7 +31,7 @@ Power BI (Ingestion, Rule Validation, Visualization)
 
 ---
 
-### 🛠️ Data Generation (Python)
+###  Data Generation (Python)
 
 -  Leveraged AI to create a [Python script](python/synth_sku_generator.py) used to generate a synthetic SKU master dataset with over 5,000 SKUs. The script allowed me to customize output, including the # of SKUs to generate and the percentage of errors to insert in the dataset.
 -  Included fields such as:
@@ -46,7 +46,7 @@ Power BI (Ingestion, Rule Validation, Visualization)
  ---
 
 
-### 🗄️ Data Storage (PostgreSQL)
+###  Data Storage (PostgreSQL)
 
 Loaded the synthetic dataset of Pharma and OTC products (csv format) into a local PostgreSQL database using the pgAdmin 4 tool. The table design resembled that of the csv dataset. No cleansing was performed, only verification that all data was loaded properly.
 
@@ -62,7 +62,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 ![Count of Records](screenshots/postgresql_check_total_records.png)
 
-### 🔍 Data Ingestion and Data Quality Rules (Power BI)
+###  Data Ingestion and Data Quality Rules (Power BI)
 
 -  I used Power Query to connect to the local PostgreSQL database, and then loaded the data using Import Mode so I could add Custom Columns.
 -  I added Custom Columns to apply data rules to generate a boolean value. True = exception, False = no exception (data follows rule).
@@ -79,7 +79,7 @@ Loaded the synthetic dataset of Pharma and OTC products (csv format) into a loca
 
 
 
-### 📊 Dashboard Features, Insights, and Action Plan
+###  Dashboard Features, Insights, and Action Plan
 
 The design of the Power BI dashboard includes:
 -  Overall data quality score (card)
@@ -143,7 +143,7 @@ After two weeks, the following realistic improvements were achieved, increasing 
 
 ---
 
-## 🗂️ Repository Structure
+##  Repository Structure
 
 ```text
 /
